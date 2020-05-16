@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Where did Minnesotans Fly? - Flight Data Analysis | Ao Liu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="See the trend behind billion rows of Airline Travel Records">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Where did Minnesotans Fly? - Flight Data Analysis">
+<meta property="og:url" content="https://www.aoliu.dev/2018/03/27/2018-03-27-Where%20Do%20Minnesotan%20Fly">
+<meta property="og:site_name" content="Ao Liu">
+<meta property="og:description" content="See the trend behind billion rows of Airline Travel Records">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/aoliu95/aoliu95.github.io/raw/master/assets/images/airport.jpg">
+<meta property="og:image" content="https://github.com/aoliu95/aoliu95.github.io/raw/master/assets/images/tableau_loading.png">
+<meta property="og:image" content="http://p6c7brrnk.bkt.gdipper.com/flight.png?imageMogr2/thumbnail/!70p">
+<meta property="og:image" content="https://github.com/aoliu95/aoliu95.github.io/raw/master/assets/images/Schma.png">
+<meta property="og:image" content="https://github.com/aoliu95/aoliu95.github.io/raw/master/assets/images/loading.png">
+<meta property="article:published_time" content="2018-03-28T06:19:00.000Z">
+<meta property="article:modified_time" content="2019-05-11T00:31:02.000Z">
+<meta property="article:author" content="Ao Liu">
+<meta property="article:tag" content="Minnesota">
+<meta property="article:tag" content="Airlines">
+<meta property="article:tag" content="Revenue Analysis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/aoliu95/aoliu95.github.io/raw/master/assets/images/airport.jpg">
+  
+  
+
+  <link rel="stylesheet" href="/dist/build.css?1.0.1">
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+
+  <div class="container">
+  <header class="header">
+    <div class="header-type">
+      
+      <div class="avatar avatar-lg">
+        <img src="/images/avatar.jpg" alt="Ao Liu">
+      </div>
+      
+      <a href="/">Ao Liu</a>
+    </div>
+    <div class="header-menu">
+      
+        <a href="/">Home</a>
+      
+        <a href="/archives">Archives</a>
+      
+        <a href="/about">About</a>
+      
+    </div>
+    
+    <div class="header-menu-mobile">
+      <div class="header-menu-mobile-inner" id="mobile-menu-open">
+        <i class="icon icon-menu"></i>
+      </div>
+    </div>
+  </header>
+
+  <div class="header-menu-mobile-menu">
+    <div class="header-menu-mobile-menu-bg"></div>
+    <div class="header-menu-mobile-menu-wrap">
+      <div class="header-menu-mobile-menu-inner">
+        <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+          <i class="icon icon-cross"></i>
+        </div>
+        <div class="header-menu-mobile-menu-list">
+          
+            <a href="/">Home</a>
+          
+            <a href="/archives">Archives</a>
+          
+            <a href="/about">About</a>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <div class="container">
+    <div class="main">
+      <section class="inner">
+        <section class="inner-main">
+          <div class="post">
+    <article
+  id="post-2018-03-27-Where Do Minnesotan Fly?-BigQuery &amp; Tableau Analysis"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+>
+  
+  <div class="article-inner">
+
+    
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Where did Minnesotans Fly? - Flight Data Analysis
+    </h1>
+  
+
+      </header>
+    
+
+    <div class="article-more-info hairline">
+      <a href="/2018/03/27/2018-03-27-Where%20Do%20Minnesotan%20Fly?-BigQuery%20&%20Tableau%20Analysis/" class="article-date">
+  <time datetime="2018-03-28T06:19:00.000Z" itemprop="datePublished">2018-03-27</time>
+</a>
+      
+      
+        <div class="article-tag">
+          <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Airlines/" rel="tag">Airlines</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Minnesota/" rel="tag">Minnesota</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Revenue-Analysis/" rel="tag">Revenue Analysis</a></li></ul>
+        </div>
+      
+    </div>
+
+    <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+      <center><img src="https://github.com/aoliu95/aoliu95.github.io/raw/master/assets/images/airport.jpg" style="width: 550px;"/> </center>
+
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><center><img src="https://github.com/aoliu95/aoliu95.github.io/raw/master/assets/images/tableau_loading.png" style="width: 350px;"/> </center> 
+<center>Got TBs of data? Tired of waiting for Tableau's response?</center>
+
+<p>You can save <strong>70%</strong> of your waiting time utilizing the power of <strong>Cloud</strong>! In this post, I’ll show you how I used Google’s Big Data platform “BigQuery” together with Tableau for Data Analysis and Visualization. </p>
+<h3 id="Here-is-the-Tableau-Dashboard"><a href="#Here-is-the-Tableau-Dashboard" class="headerlink" title="Here is the Tableau Dashboard"></a><strong>Here is the <a href="https://public.tableau.com/views/sun_2/Dashboard1?:embed=y&:display_count=yes&publish=yes" target="_blank" rel="noopener">Tableau Dashboard</a></strong></h3><p><img src="http://p6c7brrnk.bkt.gdipper.com/flight.png?imageMogr2/thumbnail/!70p" alt=""></p>
+<h2 id="What-is-BigQuery"><a href="#What-is-BigQuery" class="headerlink" title="What is BigQuery?"></a>What is BigQuery?</h2><p>BigQuery is Google’s solution for Big Data Analysis. Compared with Hadoop, BigQuery can do better in real-time querying and data analysis. For other competitors like Apache Spark, Google’s Bigquery offers easier setup and more flexible billing plan. Also, embedded with Google’s IAM system, access control would be much easier compared with Apache’s ZooKeeper. </p>
+<h2 id="Data-Source"><a href="#Data-Source" class="headerlink" title="Data Source"></a>Data Source</h2><p>The data is from Minnesota local airline travel records of 2013 and 2014, in CSV format with 800+ MB size.<br>Data should first be uploaded to Google Cloud Storage, or other Storage Service like S3. After that, heads to the Bigquery Control Panel, and adds the file as your data source. Bigquery would automatically try to detect the schema. But you can also define it by yourself.</p>
+<center><img src="https://github.com/aoliu95/aoliu95.github.io/raw/master/assets/images/Schma.png" alt="Drawing" style="width: 300px;"/> </center> 
+
+<p>After adding the data to your BigQuery Data source, you can either wrote SQL queries through BigQuery’s platform, or connect your Tableau to Bigquery by authenticating through the start page.</p>
+<h2 id="Why-BigQuery-Tableau"><a href="#Why-BigQuery-Tableau" class="headerlink" title="Why BigQuery+Tableau"></a>Why BigQuery+Tableau</h2><center><img src="https://github.com/aoliu95/aoliu95.github.io/raw/master/assets/images/loading.png" alt="Drawing" style="width: 40px;"/></center>
+<center>We all have seen this icon pretty often.</center>
+
+<p>We all know Tableau is not very good at working with huge dataset, especially calculations. Now with Bigquery, Tableau would send the calculation request in SQL query to the cloud and get result instantly. I tried myself and it cuts my waiting time from 10+ seconds to <strong>less than</strong> 1 second. Bigquery also enables people to share the same dataset without actually owning the data. So that your workbook could be live and mobile.</p>
+<h2 id="What-do-we-learn-about-Minnesotan’s-data"><a href="#What-do-we-learn-about-Minnesotan’s-data" class="headerlink" title="What do we learn about Minnesotan’s data"></a>What do we learn about Minnesotan’s data</h2><h3 id="1-Time"><a href="#1-Time" class="headerlink" title="1.Time"></a>1.Time</h3><p>Minnesota people fly for different purposes on different seasons. During winter, people fly more for vacations and “warmer places”, including <strong>Las Vagas, Orlando or Cancun</strong> (Especially during the days when the temperature drops below 0). For other seasons, customers fly mainly for business purposes. Destinations include San Francisco, Los Angeles and New York. </p>
+<h3 id="2-Advanced-Booking"><a href="#2-Advanced-Booking" class="headerlink" title="2. Advanced Booking"></a>2. Advanced Booking</h3><p>It follows the similar trend with the purposes. For vocational travel, people tend to plan <strong>well ahead</strong>. You could even see people book over <strong>3</strong> months ahead for a trip to Orlando. For the business trip, there would be <strong>less planning</strong> for ticket booking.</p>
+<h3 id="3-Booking-Source"><a href="#3-Booking-Source" class="headerlink" title="3. Booking Source"></a>3. Booking Source</h3><p>Outside booking took over 40% of all the bookings. But we also noticed that, for vacation travels, customers also utilize “<strong>Airline Vacation Bundle</strong>“ and “<strong>Reservations</strong>“ more. Because a large proportion of these customers are older generations. For business travel, we would see more in “Airline Website”, as the average age for customers is younger.</p>
+<h3 id="4-Airline-Membership"><a href="#4-Airline-Membership" class="headerlink" title="4.Airline Membership"></a>4.Airline Membership</h3><p>For different destinations, the proportion of Airline Membership among passengers is also different. People who flys for <strong>business travel</strong> are more likely to become a member of the Airline Club, as we see higher membership percentage for SFO, LAX and DFW. </p>
+<h3 id="5-Premiums-for-the-Airline"><a href="#5-Premiums-for-the-Airline" class="headerlink" title="5.Premiums for the Airline"></a>5.Premiums for the Airline</h3><p>We would define the premium as the difference between ticket base price and what the passenger actual paid, which includes luggage fee, onboard purchase, taxes and other services. It’s not surprising to see ‘<strong>Vacation Package</strong>‘ and ‘<strong>Reservation</strong>‘ offers good premiums for the Airline. But we also saw “<strong>Airline Website</strong>“ offers up-to-average premium. For Outside booking, the premium would be less than average. Flight to Cancun also offers higher premium, compared with other Business travels.</p>
+<h2 id="Business-Recommendations"><a href="#Business-Recommendations" class="headerlink" title="Business Recommendations"></a>Business Recommendations</h2><h3 id="1-Targeted-Marketing-Plan"><a href="#1-Targeted-Marketing-Plan" class="headerlink" title="1.Targeted Marketing Plan"></a>1.Targeted Marketing Plan</h3><p>We see that for different age group, travel patterns are different. We could run cluster segment based on their age, frequent travel destination and travel time. </p>
+<p>For the elder generation, they would usually go for vacation trip during winter, and prefer reservations and vacation bundles. For younger ones, they go more for business travel, and are more interested in mileage and points. </p>
+<p>The main marketing channel is though <strong>Mail ads</strong>. For elderly, the ads would be special coupons for airplane-hotel bundles, or booklets for vacation choices and casinos recommendations. For the younger generation, membership benefits abd prequalified card offers would be a good strategy. </p>
+<p>Also, for these customers, <strong>Email promotion</strong> could also be useful, where we could use AB testing to dive deeper into their preferences and provide personalized offers.</p>
+<h3 id="2-Adjust-price-policy"><a href="#2-Adjust-price-policy" class="headerlink" title="2.Adjust price policy"></a>2.Adjust price policy</h3><p>Different destinations would have different ticket booking times. For vacation places, trips are planned and tickets would be booked ahead of time.So airlines could use price discrimination to pose <strong>higher price variation</strong> during peak times and lower the variation in the flow of the time. For business travels, the price would be lower for planned passengers, and more volatile when it comes <strong>close to the travel date</strong>. </p>
+<h3 id="3-Promote-its-own-booking-system"><a href="#3-Promote-its-own-booking-system" class="headerlink" title="3.Promote its own booking system"></a>3.Promote its own booking system</h3><p> We also found that the Airline’s website provided higher premium compared with outside booking. Airline website is also a good channel for the company to advertise its hotel bundle and travel plans. So airline should put more effort on promoting its own booking system, including providing exclusive offers, online newsletter and introducing paid channels.</p>
+<h2 id="What-could-be-done-in-the-future"><a href="#What-could-be-done-in-the-future" class="headerlink" title="What could be done in the future?"></a>What could be done in the future?</h2><p>We could also use this data for predictive modeling to help the airline save cost and avoid the risk of over-selling. Or use clustering model and association rules for personalized promotions and bundles. Spark ML would be your good friend for Big Data modeling, and both Google Dataproc and Amazon EMR could be used for setup.</p>
+
+    </div>
+
+  </div>
+
+  
+
+  
+
+  
+
+  
+<nav class="article-nav">
+  
+    <a href="/2018/03/29/2018-03-29-Chocolate-brand-MoM/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">Next</div>
+      <div class="article-nav-title">
+        
+          Top Chocolate Bars in UK - Data Visualization with Tableau(MoM 3/29) 
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/26/2018-03-26-Know%20where%20has%20Google%20tracked%20you/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">Previous</div>
+      <div class="article-nav-title">Know where has Google tracked you - Location History Visualization App</div>
+    </a>
+  
+</nav>
+
+
+  <section class="share">
+    <div class="share-title">Share</div>
+    <a
+      class="share-item"
+      target="_blank"
+      href="https://twitter.com/share?text=Where did Minnesotans Fly? - Flight Data Analysis - Ao Liu&url=https://www.aoliu.dev/2018/03/27/2018-03-27-Where%20Do%20Minnesotan%20Fly?-BigQuery%20&%20Tableau%20Analysis/"
+    >
+      <div class="n-icon n-icon-twitter"></div>
+    </a>
+    <a
+      class="share-item"
+      target="_blank"
+      href="https://www.facebook.com/sharer.php?title=Where did Minnesotans Fly? - Flight Data Analysis - Ao Liu&u=https://www.aoliu.dev/2018/03/27/2018-03-27-Where%20Do%20Minnesotan%20Fly?-BigQuery%20&%20Tableau%20Analysis/"
+    >
+      <div class="n-icon n-icon-facebook"></div>
+    </a>
+    <a 
+      class="share-item"
+      target="_blank"
+      href="https://service.weibo.com/share/share.php?title=Where did Minnesotans Fly? - Flight Data Analysis - Ao Liu&url=https://www.aoliu.dev/2018/03/27/2018-03-27-Where%20Do%20Minnesotan%20Fly?-BigQuery%20&%20Tableau%20Analysis/&pic="
+    >
+      <div class="n-icon n-icon-weibo"></div>
+    </a>
+
+  </section>
+
+</article>
+
+
+</div>
+        </section>
+      </section>
+      <aside class="sidebar">
+        <div class="widget">
+          
+
+  
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+
+  
+
+
+  
+  <div class="widget-wrap">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Advertisement/" rel="tag">Advertisement</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Airlines/" rel="tag">Airlines</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Business/" rel="tag">Business</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Minnesota/" rel="tag">Minnesota</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Revenue-Analysis/" rel="tag">Revenue Analysis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TV/" rel="tag">TV</a></li></ul>
+    </div>
+  </div>
+
+
+
+  
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/15/2020-05-15-Welcome%20to%20my%20new%20post/">My New Post</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/30/2018-04-30-Continental%20gap%20Dashboard/">Python Bokeh Dashboard for Continential Development Gap</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/09/2018-04-09-Advertisement_Competition/">Advertisement Competition between top 3 Fast Food Chains -Tableau Vizulization and Analysis</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/29/2018-03-29-Chocolate-brand-MoM/">Top Chocolate Bars in UK - Data Visualization with Tableau(MoM 3/29) </a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/27/2018-03-27-Where%20Do%20Minnesotan%20Fly?-BigQuery%20&%20Tableau%20Analysis/">Where did Minnesotans Fly? - Flight Data Analysis</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a></li></ul>
+    </div>
+  </div>
+
+
+
+
+        </div>
+        <div id="backtop"><i class="icon icon-arrow-up"></i></div>
+      </aside>
+    </div>
+  </div>
+
+  <footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-info">
+      <span>&copy; 2013 - 2020 Ao Liu</span>
+      
+
+
+
+
+
+
+
+
+
+
+  <a class="social" href="https://github.com/aoliu95" target="_blank" rel="noopener">
+    <span class="n-icon n-icon-github"></span>
+  </a>
+
+    </div>
+    <div class="footer-powered">
+      Aomori Theme · Powered By Hexo
+    </div>
+  </div>
+</footer>
+
+
+<script src="/dist/build.js?1.0.1.js"></script>
+
+
+<script src="/dist/custom.js?1.0.1.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
