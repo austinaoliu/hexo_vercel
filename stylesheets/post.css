@@ -74,26 +74,26 @@
 }
 
 .post-inner-html h1 {
-	font-size: 22px;
+	font-size: 26px;
 	line-height: 48px;
 	text-align: left
 }
 
 .post-inner-html h2 {
-	font-size: 18px;
+	font-size: 22px;
 	line-height: 26px;
 	text-align: left
 }
 
 .post-inner-html h3 {
-	font-size: 16px;
+	font-size: 20px;
 	line-height: 26px;
 	text-align: left
 }
 
 .post-inner-html h4,.post-inner-html h5,.post-inner-html h6 {
 	line-height: 26px;
-	font-size: 14px;
+	font-size: 18px;
 	text-align: left
 }
 
@@ -111,7 +111,7 @@
 
 .post-inner-html pre {
 	line-height: 1.6;
-	font-size: 14px;
+	font-size: 18px;
 	white-space: pre;
 	word-wrap: normal;
 	overflow: auto;
@@ -120,13 +120,13 @@
 
 .post-inner-html pre code {
   padding: 20px;
-  font-size: 13px;
+  font-size: 17px;
 }
 
 .post-inner-html p code {
   padding: 3px 5px;
   background: #f1f1f1;
-  font-size: 13px;
+  font-size: 17px;
   border-radius: 3px;
 }
 
@@ -330,11 +330,11 @@
 }
 
 .post-inner-html small {
-	font-size: 80%
+	font-size: 85%
 }
 
 .post-inner-html sub,.post-inner-html sup {
-	font-size: 75%;
+	font-size: 85%;
 	line-height: 0;
 	position: relative;
 	vertical-align: baseline
